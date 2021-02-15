@@ -151,7 +151,16 @@ endfunction
 function! lsp#ui#vim#output#setcontent(winid, lines, ft) abort
     if s:use_vim_popup
         " vim popup
-        call setbufline(winbufnr(a:winid), 1, a:lines)
+        " JY modification - remove empty lines at top and bottom
+        let first_ne_line = 0
+        while empty(trim(a:lines[first_ne_line]))
+            let first_ne_line += 1
+        endwhile
+        let last_ne_line = len(a:lines) - 1
+        while empty(trim(a:lines[last_ne_line]))
+            let last_ne_line -= 1
+        endwhile
+        call setbufline(winbufnr(a:winid), 1, a:lines[first_ne_line:last_ne_line])
         call setbufvar(winbufnr(a:winid), '&filetype', a:ft . '.lsp-hover')
 
     else
