@@ -79,7 +79,7 @@ function! s:handle_code_lens(ctx, server_name, command_id, sync, bufnr, data) ab
 
     " Prompt to choose code lenses.
     let l:index = inputlist(map(copy(l:total_code_lenses), { i, lens ->
-                \   printf('%s - [%s] %s', i + 1, lens['server_name'], lens['code_lens']['command']['title'])
+                \   printf('%s (line %s) - [%s] %s', i + 1, lens['code_lens']['range']['start']['line'] + 1, lens['server_name'], lens['code_lens']['command']['title'])
                 \ }))
 
     " Execute code lens.
